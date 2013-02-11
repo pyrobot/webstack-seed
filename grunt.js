@@ -28,23 +28,23 @@ module.exports = function (grunt) {
       },
       // Build Steps
       build_jade_index: {
-        command: './node_modules/.bin/jade app/views/index.jade --out build',
+        command: 'jade app/views/index.jade --out build',
         stdout: true
       },
       build_jade_partials: {
-        command: './node_modules/.bin/jade app/views/partials/*.jade --out build/partials',
+        command: 'jade app/views/partials/*.jade --out build/partials',
         stdout: true
       },
       build_bootstrap_from_less: {
-        command: './node_modules/.bin/recess --compile app/lib/bootstrap/less/bootstrap.less > app/lib/bootstrap/css/bootstrap.css',
+        command: 'recess --compile app/lib/bootstrap/less/bootstrap.less > app/lib/bootstrap/css/bootstrap.css',
         stdout: true
       },
       minify_bootstrap_css: {
-        command: './node_modules/.bin/cleancss app/lib/bootstrap/css/bootstrap.css -o app/lib/bootstrap/css/bootstrap.min.css --s0',
+        command: 'cleancss app/lib/bootstrap/css/bootstrap.css -o app/lib/bootstrap/css/bootstrap.min.css --s0',
         stdout: true
       },
       minify_app_css: {
-        command: './node_modules/.bin/cleancss ./app/build/app.css -o ./app/build/app.min.css --s0'
+        command: 'cleancss ./app/build/app.css -o ./app/build/app.min.css --s0'
       },
       copy_app_css: {
         command: 'cp ./app/build/app.min.css ./build/app.css'
