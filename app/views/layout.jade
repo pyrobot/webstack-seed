@@ -1,0 +1,14 @@
+include mixins/loader
+- var pageLang = pageLang || 'en'
+- var debug = debug || false
+- var startModule = startModule || 'myApp'
+- var loadModule = debug ? startModule : null
+!!!
+html(lang=pageLang,ng-app=startModule)
+  head
+    meta(charset="utf-8")
+    block metas
+    +script_loader(debug)
+    block styles
+  body(ng-cloak)
+    block content

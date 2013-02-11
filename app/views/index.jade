@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  ul.menu
+    li: a(href="#/view1") <i class="icon-wrench"></i> view1
+    li: a(href="#/view2") <i class="icon-wrench"></i> view2
+    
+  div(ng-view)
+
+  div Angular seed app: v
+    span(app-version)
