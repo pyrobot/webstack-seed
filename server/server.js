@@ -1,7 +1,7 @@
 /*jshint node:true, es5:true*/
 'use strict';
 
-var DEVELOPMENT_MODE = false,
+var DEVELOPMENT_MODE = true,
     START_MODULE = 'myApp';
 
 var path = require('path'),
@@ -22,10 +22,10 @@ program
 DEVELOPMENT_MODE = program.prod ? false : program.dev ? true : DEVELOPMENT_MODE;
 
 if (!DEVELOPMENT_MODE) {
-  var buildDir = fs.existsSync(__dirname + '/build');
+  var buildDir = fs.existsSync(__dirname + '/../build');
   if (!buildDir) {
     console.log("Build directory not found. Run 'grunt build' first");
-    return false;
+    process.exit();
   }
 }
 
@@ -45,14 +45,14 @@ app.configure(function(){
   app.set('views', __dirname + '/../app/views');
   app.set('view engine', 'jade');
   app.use(express.favicon());
-  app.use(express.logger('dev'));
-  app.use(express.compress());
   app.use(express.bodyParser());
   app.use(express.methodOverride());
 
   if (DEVELOPMENT_MODE) {
+    app.use(express.logger('dev'));
     app.use(express.static(path.join(__dirname, appDir)));
   } else {
+    app.use(express.compress());
     app.use(express.static(path.join(__dirname, staticDir)));
   }
   app.use(express.static(path.join(__dirname, testDir)));
