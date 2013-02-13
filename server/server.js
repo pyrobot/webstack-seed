@@ -1,5 +1,6 @@
-/*jshint node:true, es5:true*/
 'use strict';
+
+/*jshint node:true, es5:true*/
 
 var DEVELOPMENT_MODE = true,
     START_MODULE = 'myApp';
@@ -11,9 +12,14 @@ var path = require('path'),
 var program = require('commander');
 
 /**
- *  EXPORTS EXPRESS SERVER
+ *  EXPORTS THE EXPRESS SERVER HERE
  */
 var app = module.exports = express();
+
+// Directories to serve
+var buildDir = path.join(__dirname, '../build'),
+    testDir = path.join(__dirname, '../test'),
+    appDir = path.join(__dirname, '../app');
 
 // parse command line ops with commander
 program
@@ -26,17 +32,11 @@ program
 DEVELOPMENT_MODE = program.prod ? false : program.dev ? true : DEVELOPMENT_MODE;
 
 if (!DEVELOPMENT_MODE) {
-  var buildDir = fs.existsSync(__dirname + '/../build');
-  if (!buildDir) {
+  if (!fs.existsSync(buildDir)) {
     console.log("Build directory not found. Run 'grunt build' first");
     process.exit();
   }
 }
-
-// Directories to serve
-var staticDir = '../build',
-    testDir = '../test',
-    appDir = '../app';
 
 // Create template vars
 app.locals({
@@ -45,6 +45,7 @@ app.locals({
   pageLang: 'en'
 });
 
+// Configure the express app
 app.configure(function(){
   app.set('port', program.port || process.env.PORT || 8000);
   app.set('views', __dirname + '/../app/views');
@@ -55,15 +56,16 @@ app.configure(function(){
 
   if (DEVELOPMENT_MODE) {
     app.use(express.logger('dev'));
-    app.use(express.static(path.join(__dirname, appDir)));
+    app.use(express.static(appDir));
     app.use(express.errorHandler());
   } else {
     app.use(express.compress());
-    app.use(express.static(path.join(__dirname, staticDir)));
+    app.use(express.static(buildDir));
   }
-  app.use(express.static(path.join(__dirname, testDir)));
+  app.use(express.static(testDir));
 });
 
+// Set up the default routes
 app.get('/index.html', function (req, res) {
   res.render('index');
 });
