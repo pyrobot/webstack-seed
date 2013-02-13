@@ -3,15 +3,13 @@
   "version": "0.0.0",
   "description": "Webstack seed project",
   "scripts": {
-    "test": "./test/run.sh"
+    "test": "testacular start test/config/testacular.conf.js"
   },
   "dependencies": {
     "sockjs": "~0.3.5",
     "jade": "~0.28.1",
     "express": "~3.1.0",
     "grunt-exec": "~0.3.0",
-    "recess": "~1.1.6",
-    "clean-css": "~0.10.0",
     "commander": "~1.1.1"
   }
 }
