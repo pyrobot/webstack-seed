@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 var http = require('http'),
-    server = require('./server/server.js');
+    server = require('./app/server/express_server.js');
 
 var serverPort = server.get('port');
 

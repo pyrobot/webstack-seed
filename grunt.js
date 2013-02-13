@@ -1,5 +1,5 @@
 var http = require('http'),
-    server = require('./server/server.js');
+    server = require('./app/server/express_server.js');
 
 var serverPort = 8111;
 
