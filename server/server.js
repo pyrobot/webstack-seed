@@ -10,11 +10,15 @@ var path = require('path'),
 
 var program = require('commander');
 
+/**
+ *  EXPORTS EXPRESS SERVER
+ */
 var app = module.exports = express();
 
+// parse command line ops with commander
 program
   .version('0.0.1')
-  .option('-p, --port', 'Use specified port', parseInt)
+  .option('-p, --port [number]', 'Use specified port', 8000)
   .option('-D, --dev', 'Development mode (default)')
   .option('-P, --prod', 'Production mode')
   .parse(process.argv);
@@ -29,11 +33,12 @@ if (!DEVELOPMENT_MODE) {
   }
 }
 
-// Directory to serve
+// Directories to serve
 var staticDir = '../build',
     testDir = '../test',
     appDir = '../app';
 
+// Create template vars
 app.locals({
   debug: DEVELOPMENT_MODE,
   startModule: DEVELOPMENT_MODE ? START_MODULE : null,
@@ -41,7 +46,7 @@ app.locals({
 });
 
 app.configure(function(){
-  app.set('port', process.env.PORT || 8000);
+  app.set('port', program.port || process.env.PORT || 8000);
   app.set('views', __dirname + '/../app/views');
   app.set('view engine', 'jade');
   app.use(express.favicon());
@@ -51,15 +56,12 @@ app.configure(function(){
   if (DEVELOPMENT_MODE) {
     app.use(express.logger('dev'));
     app.use(express.static(path.join(__dirname, appDir)));
+    app.use(express.errorHandler());
   } else {
     app.use(express.compress());
     app.use(express.static(path.join(__dirname, staticDir)));
   }
   app.use(express.static(path.join(__dirname, testDir)));
-});
-
-app.configure('development', function(){
-  app.use(express.errorHandler());
 });
 
 app.get('/index.html', function (req, res) {
