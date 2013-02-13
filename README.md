@@ -97,3 +97,49 @@ to have the testacular server run continuously (and rerun tests every time a fil
 
 	npm test
 
+## Directory Layout
+
+    app/                
+      css/              
+        app.css         --> stylesheet that will get added last, after bootstrap and font-awesome
+      img/              
+      js/               --> files that will be combined/minified into production mode app.js)
+        app.js          --> main application
+        controllers.js  --> application controllers
+        directives.js   --> application directives
+        filters.js      --> custom angular filters
+        services.js     --> custom angular services
+      views/
+        index.jade      
+        layout.jade     --> app layout file (the main html template file of the app)
+        mixins/
+          loader.jade   --> contains the jade mixin that loads dev or prod modes
+        partials/       --> angular view partials (partial html templates)
+      lib/              --> library files (framework.js)
+        angular/        
+        jquery/         
+        bootstrap/      
+        font-awesome/   
+        lesscss/        
+        sockjs/         
+      server/           --> server code
+        web-server.js   --> simple development webserver based on express
+    test/               --> test source files and libraries
+      run.sh            --> starts up testacular server
+      config/
+        testacular.conf.js        --> config file for running unit tests with Testacular
+        testacular-e2e.conf.js    --> config file for running e2e tests with Testacular
+        testacular-once.conf.js    --> config file for running unit tests (once) with Testacular
+      e2e/              -->
+        runner.html     --> end-to-end test runner (open in your browser to run)
+        scenarios.js    --> end-to-end specs
+      lib/
+        angular/                --> angular testing libraries
+          angular-mocks.js      --> mocks that replace certain angular services in tests
+          angular-scenario.js   --> angular's scenario (end-to-end) test runner library
+          version.txt           --> version file
+      unit/                     --> unit level specs/tests
+        controllersSpec.js      --> specs for controllers
+        directivessSpec.js      --> specs for directives
+        filtersSpec.js          --> specs for filters
+        servicesSpec.js         --> specs for services
