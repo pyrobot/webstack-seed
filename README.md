@@ -1,7 +1,7 @@
 #WebStack seed
 ---
 
-Next gen, Single Page Web Application stack of technologies. Based off the [angular-seed](https://github.com/angular/angular-seed) repo, with a few extras...
+Next gen, Single Page Web Application stack of client side technologies. Based off the [angular-seed](https://github.com/angular/angular-seed) repo, with a few extras...
 
 ###What does it do?
 ---
@@ -19,9 +19,9 @@ Quickly sets up a project that uses the following open source technologies:
 
 #####OK.. Anything else?
 
-Like the [angular-seed](https://github.com/angular/angular-seed) repo, it sets up a similar app structure, except the library directory has been expanded to include jQuery, Bootstrap, Font Awesome, and SockJS.
+Like the [angular-seed](https://github.com/angular/angular-seed) repo, it sets up a similar app structure (including the nice E2E and Unit tests), except most of it has been consolidated under the app/ and test/ directories, respectively. 
 
-The server has been replaced with an express server, and the example AngularJS project that demonstrates how to hook up controllers has been changed to a jade version. It also links to development versions (unminified) of the included client side libraries. Bootstrap links directly to the LESS files and individual js modules.
+It also uses ExpressJS for the server, and the example AngularJS project that demonstrates how to hook up controllers has been changed to a jade version. It also links to development versions (unminified) of the included client side libraries. Bootstrap links directly to the LESS files and individual js modules.
 
 The gruntfile included has a series of build steps that can be run to create a "production" version, that compresses all of the library files down to one: framework.js. It also compresses the app, controller, directives, filters, and services files into a seperate "app.js" This way, frequently changing code can have it's own file, and not affect the overall cached version of the framework.js (that's not likely to change as often)
 
