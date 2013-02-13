@@ -2,24 +2,28 @@
 
 /*jshint node:true, es5:true*/
 
+// Server constants
 var DEVELOPMENT_MODE = true,
-    START_MODULE = 'myApp';
 
-var path = require('path'),
+// Angular module to load on startup
+// (passed into the jade templates)
+    START_MODULE = 'myApp',
+
+// Modules to load
+    path = require('path'),
+    fs = require('fs'),
     express = require('express'),
-    fs = require('fs');
+    program = require('commander'),
 
-var program = require('commander');
-
-/**
- *  EXPORTS THE EXPRESS SERVER HERE
- */
-var app = module.exports = express();
+// Create the express server and define a startup port
+    app = express(),
+    startupPort = 8000,
 
 // Directories to serve
-var buildDir = path.join(__dirname, '../build'),
-    testDir = path.join(__dirname, '../test'),
-    appDir = path.join(__dirname, '../app');
+    buildDir = path.join(__dirname, '../../build'),
+    testDir = path.join(__dirname, '..././test'),
+    appDir = path.join(__dirname, '../../app'),
+    viewsDir = path.join(__dirname, '../views');
 
 // parse command line ops with commander
 program
@@ -29,14 +33,19 @@ program
   .option('-P, --prod', 'Production mode')
   .parse(process.argv);
 
+// Overwrite dev mode with args
 DEVELOPMENT_MODE = program.prod ? false : program.dev ? true : DEVELOPMENT_MODE;
 
+// Early out if no library to serve
 if (!DEVELOPMENT_MODE) {
   if (!fs.existsSync(buildDir)) {
     console.log("Build directory not found. Run 'grunt build' first");
     process.exit();
   }
 }
+
+// Calculate the starup port
+startupPort = program.port || process.env.PORT || startupPort;
 
 // Create template vars
 app.locals({
@@ -47,8 +56,8 @@ app.locals({
 
 // Configure the express app
 app.configure(function(){
-  app.set('port', program.port || process.env.PORT || 8000);
-  app.set('views', __dirname + '/../app/views');
+  app.set('port', startupPort);
+  app.set('views', viewsDir);
   app.set('view engine', 'jade');
   app.use(express.favicon());
   app.use(express.bodyParser());
@@ -56,13 +65,13 @@ app.configure(function(){
 
   if (DEVELOPMENT_MODE) {
     app.use(express.logger('dev'));
-    app.use(express.static(appDir));
     app.use(express.errorHandler());
+    app.use(express.static(appDir));
+    app.use(express.static(testDir));
   } else {
     app.use(express.compress());
     app.use(express.static(buildDir));
   }
-  app.use(express.static(testDir));
 });
 
 // Set up the default routes
@@ -73,3 +82,6 @@ app.get('/index.html', function (req, res) {
 app.get('/', function (req, res) {
   res.render('index');
 });
+
+// exports the express server
+module.exports = app;
