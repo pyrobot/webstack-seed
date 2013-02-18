@@ -2,7 +2,7 @@
 
 /*jshint node:true, es5:true*/
 
-// Server constants
+// Server constant
 var DEVELOPMENT_MODE = true,
 
 // Angular module to load on startup
@@ -21,7 +21,7 @@ var DEVELOPMENT_MODE = true,
 
 // Directories to serve
     buildDir = path.join(__dirname, '../../build'),
-    testDir = path.join(__dirname, '..././test'),
+    testDir = path.join(__dirname, '../../test'),
     appDir = path.join(__dirname, '../../app'),
     viewsDir = path.join(__dirname, '../views');
 
